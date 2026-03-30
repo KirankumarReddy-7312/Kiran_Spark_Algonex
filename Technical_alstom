@@ -131,7 +131,43 @@ HAVING COUNT(t.ticket_id) > 1;
 
 
 11. Write a code for factorial & even/odd of a number within a single function
+  -> Printing a number is even or odd
+      num = int(input("Enter a number: "))
+      if num % 2 == 0:
+        print("Even number")
+     else:
+        print("Odd number")
 
-Write a query structure for Triggers/SP/Views/CTE/Sub query types
 
-What AI models you’re using, how you’ll write a best prompt for better resukt
+12. Write a query structure for Triggers/SP/Views/CTE/Sub query types
+
+->  Stored Procedure
+create procedur proedure_name
+BEGIN
+   select * from table_name;
+END;
+
+-> View
+create VIEW alstom AS
+select * from table_name;
+
+-> CTE
+WITH cte_name AS (
+    select * from table_name
+)
+select * from temp;
+
+-> Subquery
+select name from employees
+where salary > (
+                  select AVG(salary) from employees
+);
+
+
+13. What AI models you’re using, how you’ll write a best prompt for better resukt
+OpenAI (GPT models): OpenAI is a company that builds AI models and Their main models are called GPT
+        -> The GPT model can understand and generate human-like text, Answer questions, Write code, Explain concepts
+
+Google (Gemini): Google created Gemini, their advanced AI model.
+       -> The Gemini can Understands text, images, audio, and video, Answers questions, Helps in coding and research, Works with Google services
+
