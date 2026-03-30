@@ -1,0 +1,137 @@
+-- Creating Databese
+create database ticket_system;
+
+-- Using database
+use ticket_system;
+
+1. Design a Ticket Management System.
+-- DDL Commands
+-- Creating Users Table
+create table users (
+    user_id int auto_increment Primary Key,
+    name varchar(100),
+    email varchar(100) unique
+);
+
+-- Creating tickets Table
+create table tickets (
+     ticket_id varchar(20) primary key,
+     ticket_cost decimal(4,2),
+     description text,
+     user_id int,
+     dept_id int,
+     foreign key (user_id) references users(user_id),
+     foreign key (user_id) references departments(user_id)
+
+);
+     
+-- Creating Departments Table
+create table departments (
+     dept_id int Primary Key,
+     dept_name varchar(20)
+);
+
+-- changing data type for dept_id from departmemts table
+Alter table departments modify dept_id varchar(20);
+
+2. Why using VARCHAR for ticket_id is a bad idea?
+ -> Using VARCHAR for ticket_id is slow because text is harder to compare than numbers.
+ -> It uses more space and can sort wrongly (like 10 coming before 2).
+ -> It also allows messy values instead of clean, proper IDs.
+
+
+3. Perform all following Operations
+    All DML Commands
+    Fetch Data (JOIN)
+    Tickets without Department
+    Users with Multiple Tickets
+
+-- All DML Commands
+  -- Inserting data into Users table
+insert into users (name, email)
+           values ('Kiran', 'kiran@gmail.com'),
+                  ('Sai', 'sai@gmail.com'),
+                  ('Indu', 'indu@gmail.com');
+
+  -- Inserting data into departments table
+insert into departments (dept_id, dept_name) 
+                 values ('Dep1','IT'),
+                        ('Dep2','HR'),
+                        ('Dep3','Finance');
+
+  -- Inserting data into tickets table
+insert into tickets (ticket_id, ticket_cost, description, user_id, dept_id) 
+                 values ('TKT101', 50.00, 'Login issue', 1, 'Dep1'),
+                        ('TKT102', 75.50, 'System not working', 2, 'Dep1'),
+                        ('TKT103', 120.00, 'Salary not credited', 3, 'Dep2'),
+                        ('TKT104', 60.00, 'Login issue', 1, 'Dep3'),
+                        ('TKT105', 40.00, 'Network issue', 2, NULL);
+
+ -- Fetch Data (JOIN)
+select t.ticket_id, t.description, u.name AS user_name, d.dept_name
+from tickets t
+join users u ON t.user_id = u.user_id
+LEFT JOIN departments d ON t.dept_id = d.dept_id;
+
+ -- Tickets without Department
+select * 
+from tickets
+where dept_id IS NULL;
+
+
+-- Users with Multiple Tickets
+SELECT u.user_id, u.name C OUNT(t.ticket_id) AS total_tickets
+FROM users u
+JOIN tickets t ON u.user_id = t.user_id
+GROUP BY u.user_id, u.name
+HAVING COUNT(t.ticket_id) > 1;
+
+4. Replace NULL commission with 0 in a table & each column
+  select name, IFNULL(commission, 0) AS commission from workers;
+
+5. Find 4th Highest Salary
+  select DISTINCT salary FROM employees order by salary DESC LIMIT 1 OFFSET 3;
+
+6. What will happen if you DELETE without WHERE
+-> If you delete without where condition then it will delete all records but it keeps table structure
+
+ 7. What is the difference between = vs LIKE
+-> = is used for exact matching and the value must be 100% the same
+    ex: select * from users where name = 'Kiran'
+        -- the above query is gets only rows where name is exactly "Kiran"
+-> LIKE is Used for searching patterns and works with wildcards which are % and _'
+              here, % → any number of characters
+                    _ → single character
+8. Write a query for 'I%Love%ALGONEX'
+   select * from algonex_spark where column_name LIKE 'I%Love%ALGONEX';
+
+9. Write any 10 MySQL fucntions with a clear examples
+-> COUNT(): select COUNT(*) from users;
+-> SUM():select SUM(ticket_cost) FROM tickets;
+-> AVG(): select AVG(ticket_cost) FROM tickets;
+-> MAX(): select MAX(ticket_cost) FROM tickets;
+-> MIN(): select MIN(ticket_cost) FROM tickets;
+-> UPPER(): select UPPER(name) FROM users;
+-> LOWER(): select LOWER(name) FROM users;
+-> LENGTH(): select LENGTH(name) FROM users;
+-> ROUND(): select ROUND(ticket_cost, 1) FROM tickets;
+-> NOW(): SELECT NOW();
+
+10. what is Lambda Function and list comprehension, give an example for each
+-> The Lambda function is a small, one-line function without a name, it is used when you need a function for a short time.
+   Syntax: lambda arguments: expression
+    ex: square = lambda x: x * x
+        print(square(5)) # O/P is 25
+
+ -> The list comprehension is the creating a short list for single lime code.
+    Syntax: [expression for item in condition]
+    ex: numbers = [1, 2, 3, 4]
+        squares = [x * x for x in numbers]
+        print(squares) # O/is 1, 4, 9, 16
+
+
+11. Write a code for factorial & even/odd of a number within a single function
+
+Write a query structure for Triggers/SP/Views/CTE/Sub query types
+
+What AI models you’re using, how you’ll write a best prompt for better resukt
